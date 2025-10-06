@@ -1,9 +1,9 @@
-import express from "express";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import pool from "../db.js";
-import { generateAccessToken } from "../utils/authTokens.js";
-import authenticateToken from "../middleware/auth.js";
+const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const pool = require('../db');
+const { generateAccessToken } = require('../utils/authTokens');
+const authenticateToken = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -98,3 +98,5 @@ router.get("/profile", authenticateToken, async (req, res) => {
         res.status(500).json("Server error");
     }
 });
+
+module.exports = router;

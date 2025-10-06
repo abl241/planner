@@ -1,5 +1,5 @@
-import express from 'express';
-import pool from '../db';
+const express = require('express');
+const pool = require('../db');
 
 const router = express.Router();
 
@@ -137,4 +137,4 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;
