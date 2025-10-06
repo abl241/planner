@@ -57,8 +57,84 @@ router.get('/:id', async (req, res) => {
 
 // ************************************************* Get all tasks for a user **********************************************************
 
+router.get('/', async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const tasks = await pool.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY due_date ASC",
+            [ userId ]
+        );
+
+        res.json(tasks.rows);
+    } catch (err) {
+        console.error("Error fetching tasks: ", err.message);
+        res.status(500).json("Server error fetching tasks");
+    }
+});
 
 // ************************************************* Delete a task **********************************************************
 
+router.delete('/:id', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const deleteTask = await pool.query("DELETE FROM tasks WHERE id = $1 AND user_id = $2 RETURNING *",
+            [ id, userId]
+        );
+
+        if(deleteTask.rows.length === 0) {
+            return res.status(404).json("Task not found or not authorized");
+        }
+
+        res.json("Task deleted successfully");
+    } catch (err) {
+        console.error("Error deleting task: ", err.message);
+        res.status(500).json("Server error deleting task");
+    }
+});
+
 
 // ************************************************* Update a task **********************************************************
+
+router.put('/:id', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+        const {
+            name,
+            due_date,
+            category,
+            notes,
+            link,
+            is_completed,
+            is_recurring,
+            repeat_rule,
+        } = req.body;
+
+        const updateTask = await pool.query(`UPDATE tasks SET
+            name = COALESCE($1, name),
+            due_date = COALESCE($2, due_date),
+            category = COALESCE($3, category),
+            notes = COALESCE($4, notes),
+            link = COALESCE($5, link),
+            is_completed = COALESCE($6, is_completed),
+            is_recurring = COALESCE($7, is_recurring),
+            repeat_rule = COALESCE($8, repeat_rule),
+            updated_at = CURRENT_TIMESTAMP
+            WHERE id = $9 AND user_id = $10 RETURNING *`,
+            [ name, due_date, category, notes, link, is_completed, is_recurring, repeat_rule, id, userId ]
+        );
+        
+        if(updateTask.rows.length === 0) {
+            return res.status(404).json("Task not found or not authorized");
+        }
+
+        res.json(updateTask.rows[0]);
+    } catch (err) {
+        console.error("Error updating task: ", err.message);
+        res.status(500).json("Server error updating task");
+    }
+});
+
+export default router;
