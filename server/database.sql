@@ -9,23 +9,68 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tasks table (linked to users)
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id) ON DELETE CASCADE,
-  title VARCHAR(200) NOT NULL,
-  description TEXT,
-  due_date DATE,
+
+  -- Core info
+  name VARCHAR(200) NOT NULL,
+  due_date TIMESTAMP,
+  category VARCHAR(100),
+  notes TEXT,
+  link TEXT,
+
+  -- Status
   is_completed BOOLEAN DEFAULT false,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+  -- Repeat
+  is_recurring BOOLEAN DEFAULT false,
+  repeat_rule TEXT,  -- e.g. "DAILY", "WEEKLY", or JSON like {"freq":"weekly","interval":2}
+
+  -- Reminders (multiple possible, so we'll use a separate table)
+  -- see reminders table below
+
+  -- Metadata
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
 
 -- Events table
 CREATE TABLE events (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id) ON DELETE CASCADE,
-  title VARCHAR(200) NOT NULL,
-  description TEXT,
-  event_date TIMESTAMP NOT NULL,
+
+  -- Core info
+  name VARCHAR(200) NOT NULL,
+  start_time TIMESTAMP NOT NULL,
+  end_time TIMESTAMP,
+  category VARCHAR(100),
+  notes TEXT,
+
+  -- Repeat
+  is_recurring BOOLEAN DEFAULT false,
+  repeat_rule TEXT,  -- same idea as tasks
+
+  -- Reminders (multiple possible, separate table)
+
+  -- Metadata
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Reminders table
+CREATE TABLE reminders (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,
+
+  -- Can link to either a task or an event
+  task_id INT REFERENCES tasks(id) ON DELETE CASCADE,
+  event_id INT REFERENCES events(id) ON DELETE CASCADE,
+
+  reminder_time TIMESTAMP NOT NULL,
+
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
