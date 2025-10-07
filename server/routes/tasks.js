@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         } = req.body;
 
         if(!name) {
-            return res.status(400).json("Task name is required");
+            return res.status(400).json({ message: "Task name is required" });
         }
 
         const newTask = await pool.query("INSERT INTO tasks (user_id, name, due_date, category, notes, link, is_completed, is_recurring, repeat_rule) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(newTask.rows[0]);
     } catch (err) {
         console.error("Error creating task: ", err.message);
-        res.status(500).json("Server error creating task");
+        res.status(500).json({ message: "Server error creating task" });
     }
 });
 
@@ -45,13 +45,13 @@ router.get('/:id', async (req, res) => {
         );
 
         if(task.rows.length === 0) {
-            return res.status(404).json("Task not found");
+            return res.status(404).json({ message: "Task not found" });
         }
 
         res.json(task.rows[0]);
     } catch (err) {
         console.error("Error fetching task: ", err.message);
-        res.status(500).json("Server error fetching task");
+        res.status(500).json({ message: "Server error fetching task" });
     }
 });
 
@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
         res.json(tasks.rows);
     } catch (err) {
         console.error("Error fetching tasks: ", err.message);
-        res.status(500).json("Server error fetching tasks");
+        res.status(500).json({ message: "Server error fetching tasks" });
     }
 });
 
@@ -84,13 +84,13 @@ router.delete('/:id', async (req, res) => {
         );
 
         if(deleteTask.rows.length === 0) {
-            return res.status(404).json("Task not found or not authorized");
+            return res.status(404).json({ message: "Task not found or not authorized" });
         }
 
         res.json("Task deleted successfully");
     } catch (err) {
         console.error("Error deleting task: ", err.message);
-        res.status(500).json("Server error deleting task");
+        res.status(500).json({ message: "Server error deleting task" });
     }
 });
 
@@ -127,13 +127,13 @@ router.put('/:id', async (req, res) => {
         );
         
         if(updateTask.rows.length === 0) {
-            return res.status(404).json("Task not found or not authorized");
+            return res.status(404).json({ message: "Task not found or not authorized" });
         }
 
         res.json(updateTask.rows[0]);
     } catch (err) {
         console.error("Error updating task: ", err.message);
-        res.status(500).json("Server error updating task");
+        res.status(500).json({ message: "Server error updating task" });
     }
 });
 
