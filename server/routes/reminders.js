@@ -35,6 +35,27 @@ router.post('/', async (req, res) => {
 
 // ************************************************* Get a reminder by ID **********************************************************
 
+router.get('/:id', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const reminder = await pool.query("SELECT * FROM reminders WHERE id = $1 AND user_id = $2",
+            [ id, userId ]
+        );
+
+        if(reminder.rows.length === 0) {
+            return res.status(404).json({ message: "Reminder not found" });
+        }
+
+        res.json(reminder.rows[0]);
+    } catch (err) {
+        console.error("Error fetching reminder: ", err.message);
+        res.status(500).json({ message: "Server error fetching reminder" });
+    }
+
+});
+
 // ************************************************* Get all reminders for a user **********************************************************
 
 // ********************************************************** Update a reminder **********************************************************
