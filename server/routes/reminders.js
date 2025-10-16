@@ -72,6 +72,62 @@ router.get('/', async (req, res) => {
     }
 });
 
+// ********************************************************** Delete a reminder **********************************************************
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const deleteReminder = await pool.query("DELETE FROM reminders WHERE id = $1 AND user_id = $2 RETURNING *",
+            [ id, userId ]
+        );
+
+        if(deleteReminder.rows.length === 0) {
+            return res.status(404).json({ message: "Reminder not found or not authorized" });
+        }
+
+        res.json({ message: "Reminder deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting reminder: ", err.message);
+        res.status(500).json({ message: "Server error deleting reminder" });
+    }
+});
+
 // ********************************************************** Update a reminder **********************************************************
 
-// ********************************************************** Delete a reminder **********************************************************
+router.put('/:id', async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const {
+            task_id,
+            event_id,
+            reminder_time
+        } = req.body;
+
+        if(!reminder_time) {
+            return res.status(400).json({ message: "Reminder time is required" });
+        }
+
+        if(task_id && event_id) {
+            return res.status(400).json({ message: "Provide only task_id or event_id, not both" });
+        }
+
+        const updateReminder = await pool.query("UPDATE reminders SET task_id = $1, event_id = $2, reminder_time = $3 WHERE id = $4 AND user_id = $5 RETURNING *",
+            [ task_id || null, event_id || null, reminder_time, id, userId ]
+        );
+
+        if(updateReminder.rows.length === 0) {
+            return res.status(404).json({ message: "Reminder not found or no changes made" });
+        }
+
+        res.json(updateReminder.rows[0]);
+    } catch (err) {
+        console.error("Error updating reminder: ", err.message);
+        res.status(500).json({ message: "Server error updating reminder" });
+    }
+});
+
+module.exports = router;

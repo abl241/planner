@@ -23,6 +23,9 @@ app.use('/tasks', authenticateToken, tasksRoutes);
 const eventRoutes = require('./routes/events');
 app.use('/events', authenticateToken, eventRoutes);
 
+const remindersRoutes = require('./routes/reminders');
+app.use('/reminders', authenticateToken, reminderRoutes);
+
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
 });
