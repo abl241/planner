@@ -11,7 +11,6 @@ app.use(express.json());
 
 
 // Routes
-
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
 
@@ -19,13 +18,12 @@ app.use('/auth', authRoutes);
 const tasksRoutes = require('./routes/tasks');
 app.use('/tasks', authenticateToken, tasksRoutes);
 
-
 const eventRoutes = require('./routes/events');
 app.use('/events', authenticateToken, eventRoutes);
 
 const remindersRoutes = require('./routes/reminders');
-app.use('/reminders', authenticateToken, reminderRoutes);
+app.use('/reminders', authenticateToken, remindersRoutes);
 
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
+app.listen(4000, () => {
+    console.log('Server is running on port 4000');
 });

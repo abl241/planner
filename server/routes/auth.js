@@ -71,11 +71,12 @@ router.post("/login", async (req, res) => {
         res.json({
             message: "Login successful",
             user: {
-                id: users.rows[0].id,
-                name: users.rows[0].name,
-                email: users.rows[0].email,
-            }
-        });
+                id: user.rows[0].id,
+                name: user.rows[0].name,
+                email: user.rows[0].email,
+            },
+            token
+            });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: "Server error logging in" });
