@@ -3,12 +3,14 @@ import { FaBars, FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import s from "./Header.module.css";
 
-export default function Header({ username = "User" }) {
-  const [date, setDate] = useState("");
-  const [greeting, setGreeting] = useState("");
+export default function Header() {
+    const [date, setDate] = useState("");
+    const [greeting, setGreeting] = useState("");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const first_name = user?.first_name || "User";
 
-  useEffect(() => {
-    const today = new Date();
+    useEffect(() => {
+        const today = new Date();
 
     // Greeting logic
     const hour = today.getHours();
@@ -18,9 +20,9 @@ export default function Header({ username = "User" }) {
 
     // Date formatting
     const formatted = today.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "short",
-      day: "numeric",
+        weekday: "long",
+        month: "short",
+        day: "numeric",
     });
     setDate(formatted);
   }, []);
@@ -65,7 +67,7 @@ export default function Header({ username = "User" }) {
       <div className={s.right}>
         <div className={s.greeting}>
           <div className={s.greetingText}>
-            {greeting}, {username}
+            {greeting}, <p className={s.username}>{first_name}!</p>
           </div>
           <div className={s.date}>{date}</div>
         </div>

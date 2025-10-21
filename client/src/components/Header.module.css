@@ -99,9 +99,16 @@
 }
 
 .greetingText {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1.2rem;
     color: var(--text-color);
+}
+
+.username {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: inline;
+    color: var(--primary-color);
 }
 
 .date {

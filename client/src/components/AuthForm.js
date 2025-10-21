@@ -21,12 +21,18 @@ export default function AuthForm({ type }) {
         const res = await axios.post(endpoint, { email, password, first_name, last_name });
 
         if(isLogin) {
-            localStorage.setItem("token", res.data.token);
+            const { token, user } = res.data;
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify({
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                id: user.id
+            }));
             navigate("/dash/dashboard");
         }
 
         setMessage(isLogin ? "Logged in successfully!" : "Account created!");
-        console.log(res.data);
     } catch (err) {
         setMessage(err.response?.data?.error || "Something went wrong");
     }
