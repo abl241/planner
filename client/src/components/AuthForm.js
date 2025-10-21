@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import s from "./AuthForm.module.css";
 
@@ -7,18 +8,25 @@ export default function AuthForm({ type }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const isLogin = type === "login";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const endpoint = isLogin ? "/auth/login" : "/auth/register";
-      const res = await axios.post(endpoint, { email, password });
-      setMessage(isLogin ? "Logged in successfully!" : "Account created!");
-      console.log(res.data);
+        const endpoint = isLogin ? "/auth/login" : "/auth/register";
+        const res = await axios.post(endpoint, { email, password });
+
+        if(isLogin) {
+            localStorage.setItem("token", res.data.token);
+            navigate("/dash/dashboard");
+        }
+
+        setMessage(isLogin ? "Logged in successfully!" : "Account created!");
+        console.log(res.data);
     } catch (err) {
-      setMessage(err.response?.data?.error || "Something went wrong");
+        setMessage(err.response?.data?.error || "Something went wrong");
     }
   };
 

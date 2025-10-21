@@ -1,0 +1,123 @@
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* LEFT SIDE */
+.left {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+}
+
+.optionsBtn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #555;
+    transition: transform 0.2s, color 0.2s;
+}
+.optionsBtn:hover {
+    transform: scale(1.05);
+    color: var(--primary-color);
+}
+
+.navTabs {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+}
+
+.tab {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 0.4rem 1.2rem;
+    position: relative; /* needed for the underline */
+    transition: color 0.2s ease;
+}
+
+/* underline base (hidden) */
+.tab::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.tab:hover {
+    color: var(--primary-color);
+    font-size:2rem;
+    font-weight: 700;
+    transition: ease 0.2s;
+}
+
+/* hover shows underline */
+.tab:hover::after {
+    transform: scaleX(1);
+}
+
+/* active NavLink keeps underline */
+.active::after {
+    transform: scaleX(1);
+}
+
+/* active NavLink color/weight */
+.active {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+
+/* RIGHT SIDE */
+.right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.greeting {
+    text-align: right;
+}
+
+.greetingText {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.date {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+}
+
+.profile {
+    display: flex;
+    align-items: baseline;
+    font-size: 2.2rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+.profile:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}

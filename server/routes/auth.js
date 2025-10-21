@@ -10,9 +10,9 @@ const router = express.Router();
 // ********************************************************** User registration **********************************************************
 router.post("/register", async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        if(!name || !email || !password) {
-            return res.status(400).json({ message: "Please provide name, email and password" });
+        const { first_name, last_name, email, password } = req.body;
+        if(!first_name || !last_name || !email || !password) {
+            return res.status(400).json({ message: "Please provide first name, last name, email, and password" });
         }
 
         // Check if user already exists
@@ -27,8 +27,8 @@ router.post("/register", async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = await pool.query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email, created_at",
-            [ name, email, hashedPassword ]
+        const newUser = await pool.query("INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING id, first_name, last_name, email, created_at",
+            [ first_name, last_name, email, hashedPassword ]
         );
 
         const token = generateAccessToken(newUser.rows[0]);

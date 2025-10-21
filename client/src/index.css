@@ -9,3 +9,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --primary-color: #38BDF8;
+  --secondary-color: #E0F2FE;
+  --accent-color: #34D399;
+  --alert-color: #FCA5A5;
+
+  --background-color: #F9FAFB;
+  --card-color: #FFFFFF;
+  --border-color: #E5E7EB;
+  --text-color: #111827;
+  --secondary-text-color: #6B7280;
+}
+
+[data-theme='dark'] {
+  --primary-color: #38BDF8;
+  --secondary-color: #E0F2FE;
+  --accent-color: #34D399;
+  --alert-color: #FCA5A5;
+  
+  --background-color: #0F172A;
+  --card-color: #1E293B;
+  --border-color: #334155;
+  --text-color: #F1F5F9;
+  --secondary-text-color: #94A3B8;
+}
