@@ -75,3 +75,36 @@ CREATE TABLE reminders (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+-- Widgets table
+CREATE TABLE widgets (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  default_width INT DEFAULT 1,
+  default_height INT DEFAULT 1
+);
+
+-- User widgets table
+CREATE TABLE user_widgets (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,
+  widget_id INT REFERENCES widgets(id) ON DELETE CASCADE,
+
+  -- layout data from React Grid Layout
+  x INT NOT NULL,
+  y INT NOT NULL,
+  w INT NOT NULL,
+  h INT NOT NULL,
+  i VARCHAR(50),
+
+  static BOOLEAN DEFAULT FALSE,
+  settings JSONB,
+
+  -- new fields for your homepage vs widgets tab logic
+  section VARCHAR(50) DEFAULT 'homepage',  -- 'homepage', 'widgets_tab', or 'both'
+  is_visible BOOLEAN DEFAULT TRUE,         -- allow hiding widgets without deleting
+  expanded_view JSONB,                     -- optional layout/data for expanded view
+
+  updated_at TIMESTAMP DEFAULT NOW()
+);
