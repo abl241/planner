@@ -4,9 +4,9 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 
 import DashboardLayout from "./components/DashboardLayout";
-import Dashboard from "./pages/dash/Dashboard";
-import Calendar from "./pages/dash/Calendar";
-import Widgets from "./pages/dash/Widgets";
+import Dashboard from "./pages/dash/Dashboard/Dashboard";
+import Calendar from "./pages/dash/Calendar/Calendar";
+import Widgets from "./pages/dash/Widgets/Widgets";
 
 function App() {
   return (

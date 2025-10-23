@@ -24,6 +24,9 @@ app.use('/events', authenticateToken, eventRoutes);
 const remindersRoutes = require('./routes/reminders');
 app.use('/reminders', authenticateToken, remindersRoutes);
 
+const widgetsRoutes = require('./routes/widgets');
+app.use('/widgets', authenticateToken, widgetsRoutes);
+
 app.listen(4000, () => {
     console.log('Server is running on port 4000');
 });
