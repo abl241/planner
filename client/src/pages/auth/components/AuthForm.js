@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import Button from "../../../components/Button.js"
 import s from "./AuthForm.module.css";
 
 export default function AuthForm({ type }) {
@@ -87,12 +88,12 @@ export default function AuthForm({ type }) {
                 className={s.formInput}
                 />
 
-                <button
+                <Button
                 type="submit"
                 className={s.btnSubmit}
                 >
                 {isLogin ? "Login" : "Sign Up"}
-                </button>
+                </Button>
 
                 {message && (
                 <p className={s.message}>{message}</p>

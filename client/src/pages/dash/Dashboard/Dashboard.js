@@ -4,6 +4,7 @@ import { useState } from "react";
 import GridLayout from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import Button from "../../../components/Button";
 
 export default function Dashboard() {
     const [layout, setLayout] = useState([
@@ -22,6 +23,7 @@ export default function Dashboard() {
             <section className={s.mainSection}>
                 <div className={s.overviewSection}>
                     {/* insert overview components here */}
+                    <Button variant="primary">Add New</Button>
                 </div>
 
                 <div className={s.addButtonSection}> {/* or just put button here */}

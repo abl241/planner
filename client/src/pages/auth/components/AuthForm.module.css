@@ -35,16 +35,8 @@
 
 .btnSubmit {
   width: 100%;
-  background-color: #3b82f6;
-  color: #ffffff; 
   padding: 0.5rem;
-  border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btnSubmit:hover {
-  background-color: #2563eb;
 }
 
 .container .link {
