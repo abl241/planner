@@ -4,6 +4,8 @@ import { useState } from "react";
 import GridLayout from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+
+import NewItemModal from "../../../components/NewItemModal";
 import Button from "../../../components/Button";
 
 export default function Dashboard() {
@@ -11,6 +13,7 @@ export default function Dashboard() {
         { i: "pomodoro", x: 0, y: 0, w: 3, h: 2 }, // temporary
         { i: "goal", x: 3, y: 0, w: 3, h: 2 },
     ]);
+    const [ isModalOpen, setIsModalOpen ] = useState(false);
 
     const handleLayoutChange = (newLayout) => {
         setLayout(newLayout);
@@ -23,7 +26,8 @@ export default function Dashboard() {
             <section className={s.mainSection}>
                 <div className={s.overviewSection}>
                     {/* insert overview components here */}
-                    <Button variant="primary">Add New</Button>
+                    <Button variant="primary" onClick={() => setIsModalOpen(true)}>Add New</Button>
+                    <NewItemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
                 </div>
 
                 <div className={s.addButtonSection}> {/* or just put button here */}
