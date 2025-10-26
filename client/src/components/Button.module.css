@@ -17,25 +17,25 @@
 }
 
 /* Primary button */
-.btn.primary {
+.primary {
     background-color: var(--primary-color);
     color: #ffffff;
 }
 
 /* Secondary button */
-.btn.secondary {
+.secondary {
     background-color: var(--secondary-color);
     color: var(--text-color);
 }
 
 /* Accent button */
-.btn.accent {
+.accent {
     background-color: var(--accent-color);
     color: #ffffff;
 }
 
 /* Alert button */
-.btn.alert {
+.alert {
     background-color: var(--alert-color);
     color: #ffffff;
 }

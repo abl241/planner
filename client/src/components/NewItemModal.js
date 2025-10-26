@@ -92,11 +92,15 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
     return (
         <div className={s.modalOverlay}>
             <div className={s.modalContent} ref={modalRef}>
-                <Button variant="alert" onClick={onClose}>X</Button>
                 <form>
-                    <h2>Add New Item to Calendar</h2>
-                    <div>
-                    </div> {/* type toggle switcher */}
+                    <div className={s.toggleTypeContainer}>
+                        <div className={s.toggleGroup}>
+                            <h2>Add a New:</h2>
+                            <Button onClick={() => setType("task")} className={`${s.toggleButton} ${type === "task" ? s.active : ""}`}>Task</Button>
+                            <Button onClick={() => setType("event")} className={`${s.toggleButton} ${type === "event" ? s.active : ""}`}>Event</Button>
+                        </div>
+                        <Button variant="alert" onClick={onClose} className={s.xButton}>X</Button>
+                    </div>
 
                     <label>Title</label>
                     <input name="title" value={formData.title} onChange={handleChange}/> {/* title */}
@@ -121,8 +125,6 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                             {/* task specific fields */}
                             <label>Due Date</label>
                             <input name="dueDate" value={formData.dueDate} onChange={handleChange}/> {/* due date */}
-                            <label>Complete Status</label>
-                            <input name="completeStatus" value={formData.completeStatus} onChange={handleChange}/> {/* complete status */}
                             <label>Link</label>
                             <input name="link" value={formData.link} onChange={handleChange}/> {/* link */}
                         </>

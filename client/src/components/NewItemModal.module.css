@@ -12,16 +12,53 @@
   background: #fff;
   border-radius: 8px;
   padding: 1.5rem;
-  width: 400px;
+  width: 50rem;
   max-width: 90%;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 label {
-  font-weight: 500;
+    font-weight: 500;
+}
+
+.toggleTypeContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+}
+
+.toggleGroup {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+}
+
+.xButton {
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
+.toggleButton {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    color: var(--secondary-text-color);
+    border-radius: .5rem;
+    background-color: var(--secondary-color);
+    width: auto;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.active {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 32px;
+
 }
