@@ -27,7 +27,7 @@ export default function Button({
     return (
         <button
             type={type}
-            className={`${s.btn} ${s[variant]} ${toggleClass} ${className}`}
+            className={`${s.btn} ${s[variant]} ${variant === "toggle" ? `${s.toggle} ${toggleClass}` : ""} ${className}`}
             onClick={handleClick}
             disabled={disabled}
         >
