@@ -102,6 +102,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                         <Button variant="alert" onClick={onClose} className={s.xButton}>X</Button>
                     </div>
 
+                    <Button variant="toggle" selfToggle>TEST</Button>
                     <label>Title</label>
                     <input name="title" value={formData.title} onChange={handleChange}/> {/* title */}
 
