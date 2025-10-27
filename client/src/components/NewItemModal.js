@@ -92,7 +92,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
     return (
         <div className={s.modalOverlay}>
             <div className={s.modalContent} ref={modalRef}>
-                <form>
+                <form autoComplete="off" autoCorrect="off" spellCheck="off">
                     <div className={s.toggleTypeContainer}>
                         <div className={s.toggleGroup}>
                             <h2>Add a New:</h2>
@@ -102,24 +102,21 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                         <Button variant="alert" onClick={onClose} className={s.xButton}>X</Button>
                     </div>
 
-                    <Button variant="toggle" selfToggle>TEST</Button>
-                    <label>Title</label>
-                    <input name="title" value={formData.title} onChange={handleChange}/> {/* title */}
+                    <div className={s.titleAndCategory}>
+                        <div className={s.titleDiv}>
+                            <label>Title</label>
+                            <input name="title" value={formData.title} onChange={handleChange}/> {/* title */}
+                        </div>
+                        <div className={s.categoryDiv}>
+                            <label>Category</label>
+                            <input name="category" value={formData.category} onChange={handleChange}/> {/* category */}
+                        </div>
+                    </div>
 
-                    <label>Notes</label>
-                    <input name="notes" value={formData.notes} onChange={handleChange}/> {/* notes */}
-
-                    <label>Category</label>
-                    <input name="category" value={formData.category} onChange={handleChange}/> {/* category */}
-
-                    <label>Reminders</label>
-                    <input name="reminders" value={formData.reminders} onChange={handleChange}/>{/* reminders */}
-
-                    <label>Repeat</label>
-                    <input name="repeat" value={formData.repeat} onChange={handleChange}/> {/* repeat */}
-
-                    <label>Repeat Rules</label>
-                    <input name="repeatRules" value={formData.repeatRules} onChange={handleChange}/> {/* repeat rules */}
+                    <div className={s.labelInputPair}>
+                        <label>Notes</label>
+                        <input name="notes" value={formData.notes} onChange={handleChange}/> {/* notes */}
+                    </div>
 
                     {type === "task" && (
                         <>

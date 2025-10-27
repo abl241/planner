@@ -1,19 +1,19 @@
 .modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .modalContent {
-  background: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  width: 50rem;
-  max-width: 90%;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 50rem;
+    max-width: 90%;
 }
 
 form {
@@ -23,6 +23,7 @@ form {
 }
 
 label {
+    font-size: 24px;
     font-weight: 500;
 }
 
@@ -57,8 +58,47 @@ label {
 
 .active {
     background-color: var(--primary-color);
-    color: var(--text-color);
+    color: #fff;
     font-weight: 600;
     font-size: 32px;
+}
 
+input {
+    background-color: var(--secondary-color);
+    border: none;
+    height: 2rem;
+    border-radius: .5rem;
+    padding-left: .5rem;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+input:focus {
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);;
+    transform: scale(1.025);
+}
+
+.titleAndCategory {
+    display: flex;
+    gap: 1rem;
+}
+
+.titleDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.categoryDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.labelInputPair {
+    display: flex;
+    flex-direction: column;
 }
