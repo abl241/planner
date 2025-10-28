@@ -149,32 +149,6 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         if (!month) return 31;
         return new Date(year || 2000, month, 0).getDate();
     };
-    const handleDateChange = (field, part, min, max) => (e) => {
-        let val = e.target.value.replace(/\D/g, "");
-
-        if (val === "") {
-            setFormData((prev) => ({
-            ...prev,
-            [field]: { ...prev[field], [part]: "" },
-            }));
-            return;
-        }
-
-        if (part === "day") {
-            const maxDay = getMaxDay(
-            Number(formData[field].month),
-            Number(formData[field].year)
-            );
-            max = Math.min(max, maxDay);
-        }
-
-        if (Number(val) >= min && Number(val) <= max) {
-            setFormData((prev) => ({
-            ...prev,
-            [field]: { ...prev[field], [part]: val },
-            }));
-        }
-    };
 
     useEffect(() => {
     if (isOpen) {
@@ -185,7 +159,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
 }, [isOpen]);
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e) => { // ensure end date is after start date; no required fields are left blank
         e.preventDefault();
         onAdd(formData);
         setFormData({
@@ -250,6 +224,10 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                                         <input className={`${s.time} ${s.Hour}`} name="dueDateHour" value={tempDate.dueDate.hour} onChange={handleTimeChange("dueDate", "hour", 1, 12)} onBlur={handlePadBlur("dueDate", "hour")} maxLength={2} inputMode="numeric"/>
                                         :
                                         <input className={`${s.time} ${s.Minute}`} name="dueDateMinute" value={tempDate.dueDate.minute} onChange={handleTimeChange("dueDate", "minute", 0, 59)} onBlur={handlePadBlur("dueDate", "minute")} maxLength={2} inputMode="numeric"/>
+                                        <select>
+                                            <option value="AM" selected={tempDate.startTime.period === "AM"}>AM</option>
+                                            <option value="PM" selected={tempDate.startTime.period === "PM"}>PM</option>
+                                        </select>
                                     </div>
                                 </div>
                             <label>Link</label>
@@ -272,6 +250,10 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                                         <input className={`${s.time} ${s.Hour}`} name="startTimeHour" value={tempDate.startTime.hour} onChange={handleTimeChange("startTime", "hour", 1, 12)} onBlur={handlePadBlur("startTime", "hour")} maxLength={2} inputMode="numeric"/>
                                         :
                                         <input className={`${s.time} ${s.Minute}`} name="startTimeMinute" value={tempDate.startTime.minute} onChange={handleTimeChange("startTime", "minute", 0, 59)} onBlur={handlePadBlur("startTime", "minute")} maxLength={2} inputMode="numeric"/>
+                                        <select>
+                                            <option value="AM" selected={tempDate.startTime.period === "AM"}>AM</option>
+                                            <option value="PM" selected={tempDate.startTime.period === "PM"}>PM</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className={s.labelInputPair}>
@@ -286,6 +268,10 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                                         <input className={`${s.time} ${s.Hour}`} name="endTimeHour" value={tempDate.endTime.hour} onChange={handleTimeChange("endTime", "hour", 1, 12)} onBlur={handlePadBlur("endTime", "hour")} maxLength={2} inputMode="numeric"/>
                                         :
                                         <input className={`${s.time} ${s.Minute}`} name="endTimeMinute" value={tempDate.endTime.minute} onChange={handleTimeChange("endTime", "minute", 0, 59)} onBlur={handlePadBlur("endTime", "minute")} maxLength={2} inputMode="numeric"/>
+                                        <select>
+                                            <option value="AM" selected={tempDate.startTime.period === "AM"}>AM</option>
+                                            <option value="PM" selected={tempDate.startTime.period === "PM"}>PM</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
