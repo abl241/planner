@@ -5,6 +5,12 @@ import Button from "./Button"
 
 export default function NewItemModal({ isOpen, onClose, onAdd }) {
     const [type, setType] = useState("task"); // "task" or "event"
+    const today = new Date();
+    const defaultDate = {
+        day: String(today.getDate()).padStart(2, "0"),
+        month: String(today.getMonth() + 1).padStart(2, "0"),
+        year: String(today.getFullYear()),
+    };
     const [formData, setFormData] = useState({
         title: "",
         notes: "",
@@ -13,12 +19,12 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         repeat: "",
         repeatRules: "",
         //task specific
-        dueDate: {month: "", day: "", year: "", hour: "12", minute: "00", period: "AM"},
+        dueDate: {month: defaultDate.month, day: defaultDate.day, year: defaultDate.year, hour: "12", minute: "00", period: "AM"},
         completeStatus: false,
         link: "",
         //event specific
-        startTime: {month: "", day: "", year: "", hour: "12", minute: "00", period: "AM"},
-        endTime: {month: "", day: "", year: "", hour: "12", minute: "00", period: "AM"},
+        startTime: {month: defaultDate.month, day: defaultDate.day, year: defaultDate.year, hour: "12", minute: "00", period: "AM"},
+        endTime: {month: defaultDate.month, day: defaultDate.day, year: defaultDate.year, hour: "12", minute: "00", period: "AM"},
     });
     const modalRef = useRef(null);
     const savedForm = useRef(formData);
@@ -232,8 +238,20 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                     {type === "task" && (
                         <>
                             {/* task specific fields */}
-                            <label>Due Date</label>
-                            <input name="dueDate" value={formData.dueDate} onChange={handleChange}/> {/* due date */}
+                            <div className={s.labelInputPair}>
+                                    <label>Due Date</label>
+                                    <div>
+                                        <input className={`${s.time} ${s.MM}`} name="dueDateMM" value={tempDate.dueDate.month} onChange={handleTempChange("dueDate", "month", 1, 12)} onBlur={handlePadBlur("dueDate", "month")} maxLength={2} inputMode="numeric"/>
+                                        /
+                                        <input className={`${s.time} ${s.DD}`} name="dueDateDD" value={tempDate.dueDate.day} onChange={handleTempChange("dueDate", "day", 1, 31)} onBlur={handlePadBlur("dueDate", "day")} maxLength={2} inputMode="numeric"/>
+                                        /
+                                        <input className={`${s.time} ${s.YYYY}`} name="dueDateYYYY" value={tempDate.dueDate.year} onChange={handleTempChange("dueDate", "year", 0, 2100)} onBlur={handlePadBlur("dueDate", "year")} maxLength={4} inputMode="numeric"/>
+                                        at
+                                        <input className={`${s.time} ${s.Hour}`} name="dueDateHour" value={tempDate.dueDate.hour} onChange={handleTimeChange("dueDate", "hour", 1, 12)} onBlur={handlePadBlur("dueDate", "hour")} maxLength={2} inputMode="numeric"/>
+                                        :
+                                        <input className={`${s.time} ${s.Minute}`} name="dueDateMinute" value={tempDate.dueDate.minute} onChange={handleTimeChange("dueDate", "minute", 0, 59)} onBlur={handlePadBlur("dueDate", "minute")} maxLength={2} inputMode="numeric"/>
+                                    </div>
+                                </div>
                             <label>Link</label>
                             <input name="link" value={formData.link} onChange={handleChange}/> {/* link */}
                         </>
