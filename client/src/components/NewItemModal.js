@@ -241,22 +241,36 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                     {type === "event" && (
                         <>
                             {/* event specific fields */}
-                            <div className={s.labelInputPair}>
-                                <label>Start Time</label>
-                                <div>
-                                    <input className={`${s.time} ${s.MM}`} name="startTimeMM" value={tempDate.startTime.month} onChange={handleTempChange("startTime", "month", 1, 12)} onBlur={handlePadBlur("startTime", "month")} maxLength={2} inputMode="numeric"/>
-                                    /
-                                    <input className={`${s.time} ${s.DD}`} name="startTimeDD" value={tempDate.startTime.day} onChange={handleTempChange("startTime", "day", 1, 31)} onBlur={handlePadBlur("startTime", "day")} maxLength={2} inputMode="numeric"/>
-                                    /
-                                    <input className={`${s.time} ${s.YYYY}`} name="startTimeYYYY" value={tempDate.startTime.year} onChange={handleTempChange("startTime", "year", 0, 2100)} onBlur={handlePadBlur("startTime", "year")} maxLength={4} inputMode="numeric"/>
-                                    at
-                                    <input className={`${s.time} ${s.Hour}`} name="startTimeHour" value={tempDate.startTime.hour} onChange={handleTimeChange("startTime", "hour", 1, 12)} onBlur={handlePadBlur("startTime", "hour")} maxLength={2} inputMode="numeric"/>
-                                    :
-                                    <input className={`${s.time} ${s.Minute}`} name="startTimeMinute" value={tempDate.startTime.minute} onChange={handleTimeChange("startTime", "minute", 0, 59)} onBlur={handlePadBlur("startTime", "minute")} maxLength={2} inputMode="numeric"/>
+                            <div className={s.startEndTime}>
+                                <div className={s.labelInputPair}>
+                                    <label>Start Time</label>
+                                    <div>
+                                        <input className={`${s.time} ${s.MM}`} name="startTimeMM" value={tempDate.startTime.month} onChange={handleTempChange("startTime", "month", 1, 12)} onBlur={handlePadBlur("startTime", "month")} maxLength={2} inputMode="numeric"/>
+                                        /
+                                        <input className={`${s.time} ${s.DD}`} name="startTimeDD" value={tempDate.startTime.day} onChange={handleTempChange("startTime", "day", 1, 31)} onBlur={handlePadBlur("startTime", "day")} maxLength={2} inputMode="numeric"/>
+                                        /
+                                        <input className={`${s.time} ${s.YYYY}`} name="startTimeYYYY" value={tempDate.startTime.year} onChange={handleTempChange("startTime", "year", 0, 2100)} onBlur={handlePadBlur("startTime", "year")} maxLength={4} inputMode="numeric"/>
+                                        at
+                                        <input className={`${s.time} ${s.Hour}`} name="startTimeHour" value={tempDate.startTime.hour} onChange={handleTimeChange("startTime", "hour", 1, 12)} onBlur={handlePadBlur("startTime", "hour")} maxLength={2} inputMode="numeric"/>
+                                        :
+                                        <input className={`${s.time} ${s.Minute}`} name="startTimeMinute" value={tempDate.startTime.minute} onChange={handleTimeChange("startTime", "minute", 0, 59)} onBlur={handlePadBlur("startTime", "minute")} maxLength={2} inputMode="numeric"/>
+                                    </div>
+                                </div>
+                                <div className={s.labelInputPair}>
+                                    <label>End Time</label>
+                                    <div>
+                                        <input className={`${s.time} ${s.MM}`} name="endTimeMM" value={tempDate.endTime.month} onChange={handleTempChange("endTime", "month", 1, 12)} onBlur={handlePadBlur("endTime", "month")} maxLength={2} inputMode="numeric"/>
+                                        /
+                                        <input className={`${s.time} ${s.DD}`} name="endTimeDD" value={tempDate.endTime.day} onChange={handleTempChange("endTime", "day", 1, 31)} onBlur={handlePadBlur("endTime", "day")} maxLength={2} inputMode="numeric"/>
+                                        /
+                                        <input className={`${s.time} ${s.YYYY}`} name="endTimeYYYY" value={tempDate.endTime.year} onChange={handleTempChange("endTime", "year", 0, 2100)} onBlur={handlePadBlur("endTime", "year")} maxLength={4} inputMode="numeric"/>
+                                        at
+                                        <input className={`${s.time} ${s.Hour}`} name="endTimeHour" value={tempDate.endTime.hour} onChange={handleTimeChange("endTime", "hour", 1, 12)} onBlur={handlePadBlur("endTime", "hour")} maxLength={2} inputMode="numeric"/>
+                                        :
+                                        <input className={`${s.time} ${s.Minute}`} name="endTimeMinute" value={tempDate.endTime.minute} onChange={handleTimeChange("endTime", "minute", 0, 59)} onBlur={handlePadBlur("endTime", "minute")} maxLength={2} inputMode="numeric"/>
+                                    </div>
                                 </div>
                             </div>
-                            <label>End Time</label>
-                            <input name="endTime" value={formData.endTime} onChange={handleChange}/> {/* end time */}
                         </>
                     )}
                 </form>

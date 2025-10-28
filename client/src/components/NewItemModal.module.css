@@ -12,8 +12,9 @@
     background: #fff;
     border-radius: 8px;
     padding: 1.5rem;
-    width: 50rem;
-    max-width: 90%;
+    width: 75rem;
+    max-width: 90vw;
+    min-height: 80vh;
 }
 
 form {
@@ -107,13 +108,21 @@ input:focus {
 }
 
 /* Start / End time */
+.startEndTime {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
 .time {
     max-width: 2rem;
     text-align: center;
+    margin-right:.5rem;
+    margin-left:.5rem;
 }
 
 .MM {
-
+    margin-left:0rem;
 }
 
 .DD {
@@ -122,10 +131,11 @@ input:focus {
 
 .YYYY {
     max-width: 3rem;
+    margin-right: 1.5rem;
 }
 
 .Hour {
-
+    margin-left: 1.5rem;
 }
 
 .Minute {
