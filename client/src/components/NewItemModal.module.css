@@ -27,6 +27,26 @@ label {
     font-weight: 500;
 }
 
+input {
+    background-color: var(--secondary-color);
+    border: none;
+    height: 2rem;
+    border-radius: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+input:focus {
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);;
+    transform: scale(1.025);
+}
+
+/* Header group */
 .toggleTypeContainer {
     display: flex;
     justify-content: space-between;
@@ -63,24 +83,7 @@ label {
     font-size: 32px;
 }
 
-input {
-    background-color: var(--secondary-color);
-    border: none;
-    height: 2rem;
-    border-radius: .5rem;
-    padding-left: .5rem;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-input:focus {
-    outline: none;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);;
-    transform: scale(1.025);
-}
-
+/* Title and Category */
 .titleAndCategory {
     display: flex;
     gap: 1rem;
@@ -101,4 +104,30 @@ input:focus {
 .labelInputPair {
     display: flex;
     flex-direction: column;
+}
+
+/* Start / End time */
+.time {
+    max-width: 2rem;
+    text-align: center;
+}
+
+.MM {
+
+}
+
+.DD {
+
+}
+
+.YYYY {
+    max-width: 3rem;
+}
+
+.Hour {
+
+}
+
+.Minute {
+
 }

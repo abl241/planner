@@ -13,12 +13,12 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         repeat: "",
         repeatRules: "",
         //task specific
-        dueDate: "",
+        dueDate: {month: "", day: "", year: "", hour: "12", minute: "00", period: "AM"},
         completeStatus: false,
         link: "",
         //event specific
-        startTime: "",
-        endTime: "",
+        startTime: {month: "", day: "", year: "", hour: "12", minute: "00", period: "AM"},
+        endTime: {month: "", day: "", year: "", hour: "12", minute: "00", period: "AM"},
     });
     const modalRef = useRef(null);
     const savedForm = useRef(formData);
@@ -57,6 +57,117 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
             ...prev,
             [name]: value
         }));
+    };
+
+    //Handlers for time or date change
+    const [tempDate, setTempDate] = useState(formData);
+    useEffect(() => {
+        if (isOpen) setTempDate(formData);
+    }, [isOpen, formData]);
+
+    const pad = (val) => {
+        if (!val) return "";
+        let v = String(val).replace(/\D/g, "");
+        if (v.length === 1) v = v.padStart(2, "0");
+        if (v.length > 2) v = v.slice(-2);
+        return v;
+    };
+    const padYear = (year) => {
+        if (!year) return "";
+        let y = String(year).replace(/\D/g, "");
+        if (y.length <= 2) return `20${y.padStart(2, "0")}`;
+        if (y.length === 3) return `1${y}`;
+        return y.slice(0, 4);
+    };
+
+    function normalizeDate({ day, month, year }) {
+        const now = new Date();
+
+        let y = parseInt(year, 10);
+        let m = parseInt(month, 10);
+        let d = parseInt(day, 10);
+
+        if (isNaN(y)) y = now.getFullYear();
+        if (isNaN(m) || m < 1 || m > 12) m = now.getMonth() + 1;
+        if (isNaN(d) || d < 1) d = 1;
+
+        const maxDay = new Date(y, m, 0).getDate();
+        if (d > maxDay) d = maxDay;
+        return {
+            year: padYear(y),
+            month: pad(m),
+            day: pad(d),
+        };
+    };
+
+    const handleTempChange = (field, part, min, max) => (e) => {
+        const val = e.target.value.replace(/\D/g, ""); // only numbers
+        if (val === "" || val.length <= (part === "year" ? 4 : 2)) {
+            setTempDate((prev) => ({
+                ...prev,
+                [field]: { ...prev[field], [part]: val },
+            }));
+        }
+    };
+
+    const handlePadBlur = (field, part) => () => {
+        setTempDate((prev) => {
+            const current = prev[field] || {};
+            const prevPart = current[part] ?? "";
+            let updated = { ...current };
+
+            if (prevPart !== "") {
+                updated[part] = part === "year" ? padYear(prevPart) : pad(prevPart);
+            }
+            const { day, month, year } = updated;
+            if (day && month && year) {
+                updated = normalizeDate(updated);
+            }
+
+            const newTemp = { ...prev, [field]: updated };
+            setFormData(newTemp);
+            return newTemp;
+        });
+    }
+
+    const handleTimeChange = (field, part, min, max) => (e) => {
+        const val = e.target.value.replace(/\D/g, "");
+        if (val === "" || (Number(val) >= min && Number(val) <= max)) {
+            setFormData((prev) => ({
+                ...prev,
+                [field]: { ...prev[field], [part]: val },
+            }));
+        }
+    };
+    const getMaxDay = (month, year) => {
+        if (!month) return 31;
+        return new Date(year || 2000, month, 0).getDate();
+    };
+    const handleDateChange = (field, part, min, max) => (e) => {
+        let val = e.target.value.replace(/\D/g, "");
+
+        if (val === "") {
+            setFormData((prev) => ({
+            ...prev,
+            [field]: { ...prev[field], [part]: "" },
+            }));
+            return;
+        }
+
+        if (part === "day") {
+            const maxDay = getMaxDay(
+            Number(formData[field].month),
+            Number(formData[field].year)
+            );
+            max = Math.min(max, maxDay);
+        }
+
+        if (Number(val) >= min && Number(val) <= max) {
+            setFormData((prev) => ({
+            ...prev,
+            [field]: { ...prev[field], [part]: val },
+            }));
+        }
     };
 
     useEffect(() => {
@@ -130,8 +241,20 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                     {type === "event" && (
                         <>
                             {/* event specific fields */}
-                            <label>Start Time</label>
-                            <input name="startTime" value={formData.startTime} onChange={handleChange}/> {/* start time */}
+                            <div className={s.labelInputPair}>
+                                <label>Start Time</label>
+                                <div>
+                                    <input className={`${s.time} ${s.MM}`} name="startTimeMM" value={tempDate.startTime.month} onChange={handleTempChange("startTime", "month", 1, 12)} onBlur={handlePadBlur("startTime", "month")} maxLength={2} inputMode="numeric"/>
+                                    /
+                                    <input className={`${s.time} ${s.DD}`} name="startTimeDD" value={tempDate.startTime.day} onChange={handleTempChange("startTime", "day", 1, 31)} onBlur={handlePadBlur("startTime", "day")} maxLength={2} inputMode="numeric"/>
+                                    /
+                                    <input className={`${s.time} ${s.YYYY}`} name="startTimeYYYY" value={tempDate.startTime.year} onChange={handleTempChange("startTime", "year", 0, 2100)} onBlur={handlePadBlur("startTime", "year")} maxLength={4} inputMode="numeric"/>
+                                    at
+                                    <input className={`${s.time} ${s.Hour}`} name="startTimeHour" value={tempDate.startTime.hour} onChange={handleTimeChange("startTime", "hour", 1, 12)} onBlur={handlePadBlur("startTime", "hour")} maxLength={2} inputMode="numeric"/>
+                                    :
+                                    <input className={`${s.time} ${s.Minute}`} name="startTimeMinute" value={tempDate.startTime.minute} onChange={handleTimeChange("startTime", "minute", 0, 59)} onBlur={handlePadBlur("startTime", "minute")} maxLength={2} inputMode="numeric"/>
+                                </div>
+                            </div>
                             <label>End Time</label>
                             <input name="endTime" value={formData.endTime} onChange={handleChange}/> {/* end time */}
                         </>
