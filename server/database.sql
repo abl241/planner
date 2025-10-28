@@ -49,6 +49,7 @@ CREATE TABLE events (
   end_time TIMESTAMP,
   category VARCHAR(100),
   notes TEXT,
+  link TEXT,
 
   -- Repeat
   is_recurring BOOLEAN DEFAULT false,

@@ -29,7 +29,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
     const modalRef = useRef(null);
     const savedForm = useRef(formData);
 
-    //detect clicks outside modal, close if so
+    // Detect clicks outside modal, close if so
     useEffect(() => {
         const handleClickOutside = (e) =>{
             if(modalRef.current && !modalRef.current.contains(e.target)) {
@@ -46,7 +46,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         };
     }, [isOpen, onClose]);
 
-    //detects ESC key, closes modal
+    // Detects ESC key, closes modal
     useEffect(() => {
         const handleEsc = (e) => {
             if(e.key === "Escape") onClose();
@@ -65,7 +65,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         }));
     };
 
-    //Handlers for time or date change
+    // Logic and handlers for time or date change
     const [tempDate, setTempDate] = useState(formData);
     useEffect(() => {
         if (isOpen) setTempDate(formData);
@@ -82,7 +82,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         if (!year) return "";
         let y = String(year).replace(/\D/g, "");
         if (y.length <= 2) return `20${y.padStart(2, "0")}`;
-        if (y.length === 3) return `1${y}`;
+        if (y.length === 3) return `2${y}`;
         return y.slice(0, 4);
     };
 
@@ -107,7 +107,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
     };
 
     const handleTempChange = (field, part, min, max) => (e) => {
-        const val = e.target.value.replace(/\D/g, ""); // only numbers
+        const val = e.target.value.replace(/\D/g, "");
         if (val === "" || val.length <= (part === "year" ? 4 : 2)) {
             setTempDate((prev) => ({
                 ...prev,
@@ -145,18 +145,15 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
             }));
         }
     };
-    const getMaxDay = (month, year) => {
-        if (!month) return 31;
-        return new Date(year || 2000, month, 0).getDate();
-    };
 
+    // Preserve form data when modal is closed and reopened
     useEffect(() => {
     if (isOpen) {
         setFormData(savedForm.current);
     } else {
         savedForm.current = formData;
     }
-}, [isOpen]);
+    }, [isOpen]);
 
 
     const handleSubmit = (e) => { // ensure end date is after start date; no required fields are left blank
