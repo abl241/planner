@@ -153,9 +153,34 @@ select:focus {
 }
 
 .Hour {
-    margin-left: 1.5rem;
+    margin-left: 1rem;
 }
 
 .Minute {
 
+}
+
+.repeatAndReminders {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.repeatAndReminderButton {
+    max-width: 6rem;
+}
+
+.intervalRules {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.repeatInterval {
+    max-width: 3rem;
+    text-align: center;
+}
+
+.repeatUnit {
+    max-width: 7rem;
 }
