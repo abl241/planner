@@ -6,7 +6,7 @@ import Button from "./Button"
 export default function NewItemModal({ isOpen, onClose, onAdd }) {
     const [type, setType] = useState("task"); // "task" or "event"
     const [repeat, setRepeat] = useState(false);
-    const [reminder, setReminder] = useState(false); // impmlemtn later -- make buttons toggle state
+    const [reminder, setReminder] = useState(false);
 
     const today = new Date();
     const defaultDate = {
@@ -20,7 +20,7 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
         category: "",
         reminders: "",
         repeat: "",
-        repeatRules: "",
+        repeatRules: {unit: "", interval: "", selectedDays: []},
         link: "",
         //task specific
         dueDate: {month: defaultDate.month, day: defaultDate.day, year: defaultDate.year, hour: "12", minute: "00", period: "AM"},
@@ -62,10 +62,20 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData((prev) => {
+            const keys = name.split(".");
+
+            const updated = { ...prev };
+            let current = updated;
+
+            for (let i = 0; i < keys.length - 1; i++) {
+                const key = keys[i];
+                if (!(key in current)) current[key] = {};
+                current = current[key];
+            }
+            current[keys[keys.length - 1]] = value;
+            return updated;
+        });
     };
 
     // Logic and handlers for time or date change
@@ -287,15 +297,30 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                                     <div>
                                         <div className={s.intervalRules}>
                                             <label>Every</label>
-                                            <input className={s.repeatInterval} name="repeatInterval" value={formData.repeatInterval} onChange={handleChange} placeholder="#"/> {/* need to make interval checks, onblur thing */}
-                                            <select className={s.repeatUnit} name="repeatUnit" value={formData.repeatUnit} onChange={handleChange}> {/* repeat unit */}
+                                            <input className={s.repeatInterval} name="repeatRules.interval" value={formData.repeatRules.interval} onChange={handleChange} placeholder="#"/> {/* need to make input checks, onblur thing */}
+                                            <select className={s.repeatUnit} name="repeatRules.unit" value={formData.repeatRules.unit} onChange={handleChange}> {/* repeat unit */}
                                                 <option value="day(s)">day(s)</option> {/* make pluralization logic later */}
                                                 <option value="week(s)">week(s)</option>
                                                 <option value="month(s)">month(s)</option>
                                                 <option value="year(s)">year(s)</option>
                                             </select>
                                         </div>
+                                        <div>
+                                            <label>On</label>
+                                            <div className={s.weekdayCheckboxes}>
+                                                <select name="repeatWeekdays" multiple >
+                                                    <option value="Sunday">Sunday</option>
+                                                    <option value="Monday">Monday</option>
+                                                    <option value="Tuesday">Tuesday</option>
+                                                    <option value="Wednesday">Wednesday</option>
+                                                    <option value="Thursday">Thursday</option>
+                                                    <option value="Friday">Friday</option>
+                                                    <option value="Saturday">Saturday</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <Button onClick={()=> console.log(formData)}></Button>
                                 </>
                             )}
                         </div>
