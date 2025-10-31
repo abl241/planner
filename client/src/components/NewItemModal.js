@@ -2,6 +2,7 @@ import s from "./NewItemModal.module.css";
 import { useState, useRef, useEffect } from "react";
 
 import Button from "./Button"
+import DropdownChecklist from "./DropdownChecklist";
 
 export default function NewItemModal({ isOpen, onClose, onAdd }) {
     const [type, setType] = useState("task"); // "task" or "event"
@@ -307,20 +308,14 @@ export default function NewItemModal({ isOpen, onClose, onAdd }) {
                                         </div>
                                         <div>
                                             <label>On</label>
-                                            <div className={s.weekdayCheckboxes}>
-                                                <select name="repeatWeekdays" multiple >
-                                                    <option value="Sunday">Sunday</option>
-                                                    <option value="Monday">Monday</option>
-                                                    <option value="Tuesday">Tuesday</option>
-                                                    <option value="Wednesday">Wednesday</option>
-                                                    <option value="Thursday">Thursday</option>
-                                                    <option value="Friday">Friday</option>
-                                                    <option value="Saturday">Saturday</option>
-                                                </select>
-                                            </div>
+                                            <DropdownChecklist
+                                                options={["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]}
+                                                selectedOptions={formData.repeatRules.selectedDays}
+                                                onChange={(days) => setFormData(prev => ({...prev, repeatDays: days}))}
+                                            />
                                         </div>
                                     </div>
-                                    <Button onClick={()=> console.log(formData)}></Button>
+                                    <Button onClick={()=> console.log(formData)}>Log formData</Button>
                                 </>
                             )}
                         </div>
